@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Analyzer</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+
+</div>
+
+<nav>
+
+    <div class="logo">
+
+        <i class="fa-solid fa-robot"></i>
+
+        AI Resume Analyzer
+
+    </div>
+
+    <ul>
+
+        <li><a href="#">Home</a></li>
+
+        <li><a href="#">Features</a></li>
+
+        <li><a href="#">About</a></li>
+
+    </ul>
+
+</nav>
+
+<section class="hero">
+
+    <div class="left">
+
+        <img
+                th:src="@{/images/robot.jpg}"
+                alt="Robot"
+                class="robot-image">
+
+    </div>
+
+    <div class="right">
+
+        <h1>
+
+            AI Powered Resume Analyzer
+
+        </h1>
+
+        <p>
+
+            Upload your resume, compare it with the Job Description,
+            calculate ATS Score, identify missing skills and generate
+            an ATS Friendly Resume using Artificial Intelligence.
+
+        </p>
+
+        <form>
+
+            <div class="upload-box">
+
+                <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+
+                <h3>
+
+                    Upload Resume
+
+                </h3>
+
+                <span>
+
+                    Drag & Drop or Choose File
+
+                </span>
+
+                <br><br>
+
+                <input type="file">
+
+            </div>
+
+            <br>
+
+            <textarea
+                    placeholder="Paste Job Description Here..."
+                    rows="8"></textarea>
+
+            <br>
+
+            <button>
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                Analyze Resume
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="feature-card">
+
+        <i class="fa-solid fa-chart-column"></i>
+
+        <h2>
+
+            ATS Score
+
+        </h2>
+
+        <p>
+
+            Calculate Resume ATS Score instantly.
+
+        </p>
+
+    </div>
+
+    <div class="feature-card">
+
+        <i class="fa-solid fa-brain"></i>
+
+        <h2>
+
+            AI Suggestions
+
+        </h2>
+
+        <p>
+
+            Improve Resume using AI recommendations.
+
+        </p>
+
+    </div>
+
+    <div class="feature-card">
+
+        <i class="fa-solid fa-file-arrow-down"></i>
+
+        <h2>
+
+            ATS Resume
+
+        </h2>
+
+        <p>
+
+            Generate and download ATS Friendly Resume.
+
+        </p>
+
+    </div>
+
+</section>
+
+<footer>
+
+    © 2026 AI Resume Analyzer | Developed using Spring Boot & AI
+
+</footer>
+
+<script th:src="@{/js/script.js}"></script>
+
+</body>
+
+</html>
