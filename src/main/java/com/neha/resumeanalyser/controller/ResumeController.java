@@ -1,5 +1,6 @@
 package com.neha.resumeanalyser.controller;
 
+import com.neha.resumeanalyser.service.ResumeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,11 +9,18 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/resume")
 public class ResumeController {
 
+    private final ResumeService resumeService;
+
+    public ResumeController(ResumeService resumeService) {
+        this.resumeService = resumeService;
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<String> uploadResume(
             @RequestParam("resume") MultipartFile resume) {
 
         if (resume.isEmpty()) {
+
             return ResponseEntity.badRequest()
                     .body("Please upload a resume.");
         }
@@ -20,6 +28,7 @@ public class ResumeController {
         String fileName = resume.getOriginalFilename();
 
         if (fileName == null) {
+
             return ResponseEntity.badRequest()
                     .body("Invalid file.");
         }
@@ -33,8 +42,25 @@ public class ResumeController {
                     .body("Only PDF and DOCX files are allowed.");
         }
 
-        return ResponseEntity.ok(
-                "Resume uploaded successfully: " + fileName
-        );
+        try {
+
+            String extractedText =
+                    resumeService.processResume(resume);
+
+            System.out.println("========== RESUME TEXT ==========");
+
+            System.out.println(extractedText);
+
+            System.out.println("=================================");
+
+            return ResponseEntity.ok(
+                    "Resume uploaded and text extracted successfully."
+            );
+
+        } catch (Exception e) {
+
+            return ResponseEntity.internalServerError()
+                    .body("Could not extract resume text.");
+        }
     }
 }
