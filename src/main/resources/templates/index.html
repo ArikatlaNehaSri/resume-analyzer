@@ -9,10 +9,14 @@
 
     <title>AI Resume Analyzer</title>
 
+    <!-- Main CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -20,12 +24,22 @@
 
 <body>
 
+<!-- ==========================================
+     ANIMATED BACKGROUND
+     ========================================== -->
+
 <div class="background">
 
     <div class="circle one"></div>
+
     <div class="circle two"></div>
 
 </div>
+
+
+<!-- ==========================================
+     NAVIGATION BAR
+     ========================================== -->
 
 <nav>
 
@@ -39,26 +53,43 @@
 
     <ul>
 
-        <li><a href="#">Home</a></li>
+        <li>
+            <a href="#">Home</a>
+        </li>
 
-        <li><a href="#">Features</a></li>
+        <li>
+            <a href="#features">Features</a>
+        </li>
 
-        <li><a href="#">About</a></li>
+        <li>
+            <a href="#about">About</a>
+        </li>
 
     </ul>
 
 </nav>
 
+
+<!-- ==========================================
+     HERO SECTION
+     ========================================== -->
+
 <section class="hero">
+
+
+    <!-- LEFT SIDE - ROBOT -->
 
     <div class="left">
 
         <img
                 th:src="@{/images/robot.jpg}"
-                alt="Robot"
+                alt="AI Resume Analyzer Robot"
                 class="robot-image">
 
     </div>
+
+
+    <!-- RIGHT SIDE - RESUME ANALYZER -->
 
     <div class="right">
 
@@ -68,19 +99,30 @@
 
         </h1>
 
+
         <p>
 
             Upload your resume, compare it with the Job Description,
-            calculate ATS Score, identify missing skills and generate
-            an ATS Friendly Resume using Artificial Intelligence.
+            calculate your ATS Score, identify missing skills and
+            generate an ATS-friendly resume using Artificial Intelligence.
 
         </p>
 
-        <form>
+
+        <!-- ==========================================
+             RESUME FORM
+             ========================================== -->
+
+        <form id="resumeForm"
+              enctype="multipart/form-data">
+
+
+            <!-- RESUME UPLOAD -->
 
             <div class="upload-box">
 
                 <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+
 
                 <h3>
 
@@ -88,27 +130,42 @@
 
                 </h3>
 
-                <span>
+
+                <span id="uploadText">
 
                     Drag & Drop or Choose File
 
                 </span>
 
-                <br><br>
 
-                <input type="file">
+                <br>
+                <br>
+
+
+                <input
+                        type="file"
+                        id="resumeFile"
+                        name="resume"
+                        accept=".pdf,.docx">
+
 
             </div>
 
-            <br>
+
+            <!-- JOB DESCRIPTION -->
 
             <textarea
+                    id="jobDescription"
+                    name="jobDescription"
                     placeholder="Paste Job Description Here..."
                     rows="8"></textarea>
 
-            <br>
 
-            <button>
+            <!-- ANALYZE BUTTON -->
+
+            <button
+                    type="submit"
+                    id="analyzeButton">
 
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
 
@@ -116,17 +173,28 @@
 
             </button>
 
+
         </form>
 
     </div>
 
 </section>
 
-<section class="features">
+
+<!-- ==========================================
+     FEATURES SECTION
+     ========================================== -->
+
+<section class="features"
+         id="features">
+
+
+    <!-- FEATURE 1 -->
 
     <div class="feature-card">
 
         <i class="fa-solid fa-chart-column"></i>
+
 
         <h2>
 
@@ -134,17 +202,24 @@
 
         </h2>
 
+
         <p>
 
-            Calculate Resume ATS Score instantly.
+            Calculate your Resume ATS Score
+            and understand how well your resume
+            matches a job description.
 
         </p>
 
     </div>
 
+
+    <!-- FEATURE 2 -->
+
     <div class="feature-card">
 
         <i class="fa-solid fa-brain"></i>
+
 
         <h2>
 
@@ -152,17 +227,24 @@
 
         </h2>
 
+
         <p>
 
-            Improve Resume using AI recommendations.
+            Get intelligent suggestions to improve
+            your resume and increase your chances
+            of passing ATS screening.
 
         </p>
 
     </div>
 
+
+    <!-- FEATURE 3 -->
+
     <div class="feature-card">
 
         <i class="fa-solid fa-file-arrow-down"></i>
+
 
         <h2>
 
@@ -170,9 +252,12 @@
 
         </h2>
 
+
         <p>
 
-            Generate and download ATS Friendly Resume.
+            Generate an ATS-friendly resume based
+            on your existing resume and target
+            job description.
 
         </p>
 
@@ -180,11 +265,120 @@
 
 </section>
 
+
+<!-- ==========================================
+     ABOUT SECTION
+     ========================================== -->
+
+<section class="about"
+         id="about">
+
+    <h2>
+
+        How It Works
+
+    </h2>
+
+
+    <div class="about-steps">
+
+
+        <div class="step">
+
+            <i class="fa-solid fa-upload"></i>
+
+            <h3>
+
+                1. Upload
+
+            </h3>
+
+            <p>
+
+                Upload your resume in PDF or DOCX format.
+
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <h3>
+
+                2. Compare
+
+            </h3>
+
+            <p>
+
+                Provide the job description you are applying for.
+
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <i class="fa-solid fa-robot"></i>
+
+            <h3>
+
+                3. Analyze
+
+            </h3>
+
+            <p>
+
+                AI analyzes your resume against the job requirements.
+
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <i class="fa-solid fa-chart-simple"></i>
+
+            <h3>
+
+                4. Improve
+
+            </h3>
+
+            <p>
+
+                Get your ATS score, missing skills and improvement suggestions.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     FOOTER
+     ========================================== -->
+
 <footer>
 
-    © 2026 AI Resume Analyzer | Developed using Spring Boot & AI
+    © 2026 AI Resume Analyzer
+    |
+    Developed using Spring Boot & AI
 
 </footer>
+
+
+<!-- ==========================================
+     JAVASCRIPT
+     ========================================== -->
 
 <script th:src="@{/js/script.js}"></script>
 

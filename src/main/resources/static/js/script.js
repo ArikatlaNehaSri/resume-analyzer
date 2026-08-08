@@ -1,145 +1,160 @@
-// ===============================
-// AI Resume Analyzer - script.js
-// ===============================
-
-// Wait until page loads
 document.addEventListener("DOMContentLoaded", function () {
 
+    const form = document.getElementById("resumeForm");
+    const fileInput = document.getElementById("resumeFile");
+    const button = document.querySelector("button");
+    const uploadBox = document.querySelector(".upload-box");
+
     // -------------------------------
-    // Animate Hero Section
+    // Hero Animation
     // -------------------------------
 
     const left = document.querySelector(".left");
     const right = document.querySelector(".right");
 
-    if(left){
+    if (left) {
         left.style.opacity = "0";
         left.style.transform = "translateX(-60px)";
     }
 
-    if(right){
+    if (right) {
         right.style.opacity = "0";
         right.style.transform = "translateX(60px)";
     }
 
     setTimeout(() => {
 
-        if(left){
+        if (left) {
             left.style.transition = "1s";
             left.style.opacity = "1";
             left.style.transform = "translateX(0)";
         }
 
-        if(right){
+        if (right) {
             right.style.transition = "1s";
             right.style.opacity = "1";
             right.style.transform = "translateX(0)";
         }
 
-    },300);
+    }, 300);
+
 
     // -------------------------------
-    // Upload Box Hover
+    // File Selection
     // -------------------------------
 
-    const uploadBox = document.querySelector(".upload-box");
+    if (fileInput) {
 
-    if(uploadBox){
+        fileInput.addEventListener("change", function () {
 
-        uploadBox.addEventListener("mouseenter",function(){
+            if (fileInput.files.length === 0) {
+                return;
+            }
 
-            uploadBox.style.transform="scale(1.02)";
+            const file = fileInput.files[0];
+
+            const fileName = file.name.toLowerCase();
+
+            if (!fileName.endsWith(".pdf") &&
+                !fileName.endsWith(".docx")) {
+
+                alert("Please select a PDF or DOCX resume.");
+
+                fileInput.value = "";
+
+                return;
+            }
+
+            uploadBox.classList.add("selected");
+
+            const uploadText = uploadBox.querySelector("span");
+
+            if (uploadText) {
+                uploadText.textContent =
+                    "Selected: " + file.name;
+            }
 
         });
-
-        uploadBox.addEventListener("mouseleave",function(){
-
-            uploadBox.style.transform="scale(1)";
-
-        });
-
     }
 
-    // -------------------------------
-    // Analyze Button Animation
-    // -------------------------------
-
-    const button=document.querySelector("button");
-
-    if(button){
-
-        button.addEventListener("click",function(e){
-
-            e.preventDefault();
-
-            button.innerHTML="🤖 Analyzing Resume...";
-
-            button.disabled=true;
-
-            setTimeout(function(){
-
-                button.innerHTML="✅ Analysis Ready";
-
-                button.style.background="linear-gradient(90deg,#16a34a,#22c55e)";
-
-            },2500);
-
-        });
-
-    }
 
     // -------------------------------
-    // Floating Feature Cards
+    // Upload Resume
     // -------------------------------
 
-    const cards=document.querySelectorAll(".feature-card");
+    if (form) {
 
-    cards.forEach((card,index)=>{
+        form.addEventListener("submit", async function (event) {
 
-        card.style.opacity="0";
-        card.style.transform="translateY(60px)";
+            event.preventDefault();
 
-        setTimeout(()=>{
+            if (!fileInput.files.length) {
 
-            card.style.transition="0.8s";
+                alert("Please upload your resume first.");
 
-            card.style.opacity="1";
+                return;
+            }
 
-            card.style.transform="translateY(0)";
+            const file = fileInput.files[0];
 
-        },700+(index*250));
+            const formData = new FormData();
 
-    });
+            formData.append("resume", file);
 
-    // -------------------------------
-    // Typing Effect
-    // -------------------------------
+            button.disabled = true;
 
-    const heading=document.querySelector(".right h1");
+            button.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
 
-    if(heading){
 
-        const text=heading.innerText;
+            try {
 
-        heading.innerHTML="";
+                const response = await fetch(
+                    "/api/resume/upload",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
 
-        let i=0;
+                const message = await response.text();
 
-        function typing(){
+                if (response.ok) {
 
-            if(i<text.length){
+                    button.innerHTML =
+                        '<i class="fa-solid fa-circle-check"></i> Upload Successful';
 
-                heading.innerHTML+=text.charAt(i);
+                    button.style.background =
+                        "linear-gradient(90deg,#16a34a,#22c55e)";
 
-                i++;
+                    alert(message);
 
-                setTimeout(typing,40);
+                } else {
+
+                    button.disabled = false;
+
+                    button.innerHTML =
+                        '<i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Resume';
+
+                    alert(message);
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                button.disabled = false;
+
+                button.innerHTML =
+                    '<i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Resume';
+
+                alert(
+                    "Unable to connect to the server. Please try again."
+                );
 
             }
 
-        }
-
-        typing();
+        });
 
     }
 
