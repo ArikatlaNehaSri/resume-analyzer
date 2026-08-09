@@ -1,112 +1,456 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const form = document.querySelector("form");
-    const fileInput = document.querySelector('input[type="file"]');
-    const jobDescription = document.querySelector("textarea");
-    const analyzeButton = document.querySelector("button");
+    const form = document.querySelector("#resumeForm");
+    const fileInput = document.querySelector("#resumeFile");
+    const uploadBox = document.querySelector("#uploadBox");
+    const uploadText = document.querySelector("#uploadText");
+    const jobDescription = document.querySelector("#jobDescription");
+    const analyzeButton = document.querySelector("#analyzeButton");
 
-    if (!form || !fileInput || !jobDescription || !analyzeButton) {
+
+    /* =====================================================
+       CHECK REQUIRED ELEMENTS
+       ===================================================== */
+
+    if (!form ||
+        !fileInput ||
+        !uploadBox ||
+        !uploadText ||
+        !jobDescription ||
+        !analyzeButton) {
+
         console.error("Required elements not found.");
+
         return;
     }
 
-    form.addEventListener("submit", async function (event) {
 
-        event.preventDefault();
+    /* =====================================================
+       FILE VALIDATION
+       ===================================================== */
 
-        // Check resume
-        if (!fileInput.files || fileInput.files.length === 0) {
+    function isValidFile(file) {
 
-            alert("Please upload your resume first.");
-            return;
+        if (!file) {
+            return false;
         }
 
-        // Check job description
-        if (jobDescription.value.trim() === "") {
+        const fileName =
+            file.name.toLowerCase();
 
-            alert("Please enter the Job Description.");
-            return;
-        }
+        return fileName.endsWith(".pdf") ||
+            fileName.endsWith(".docx");
+    }
 
-        const resumeFile = fileInput.files[0];
 
-        // Check file type
-        const fileName = resumeFile.name.toLowerCase();
+    /* =====================================================
+       DISPLAY SELECTED FILE
+       ===================================================== */
 
-        if (!fileName.endsWith(".pdf") &&
-            !fileName.endsWith(".docx")) {
+    function showSelectedFile(file) {
 
-            alert("Only PDF and DOCX files are allowed.");
-            return;
-        }
+        if (!isValidFile(file)) {
 
-        // Create form data
-        const formData = new FormData();
-
-        formData.append("resume", resumeFile);
-
-        formData.append(
-            "jobDescription",
-            jobDescription.value
-        );
-
-        // Loading state
-        const originalButtonText =
-            analyzeButton.innerHTML;
-
-        analyzeButton.disabled = true;
-
-        analyzeButton.innerHTML =
-            '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
-
-        try {
-
-            const response = await fetch(
-                "/api/resume/analyze",
-                {
-                    method: "POST",
-                    body: formData
-                }
+            alert(
+                "Only PDF and DOCX files are allowed."
             );
 
-            const result = await response.json();
+            fileInput.value = "";
 
-            if (!response.ok) {
+            uploadText.textContent =
+                "Drag & Drop or Choose File";
 
-                throw new Error(
-                    result.message ||
-                    result ||
-                    "Resume analysis failed."
+            return false;
+        }
+
+
+        uploadText.textContent =
+            "Selected: " + file.name;
+
+        uploadText.style.color =
+            "#60a5fa";
+
+        uploadBox.classList.add(
+            "file-selected"
+        );
+
+        console.log(
+            "Resume selected:",
+            file.name
+        );
+
+        return true;
+    }
+
+
+    /* =====================================================
+       NORMAL FILE SELECTION
+       ===================================================== */
+
+    fileInput.addEventListener(
+        "change",
+        function () {
+
+            if (fileInput.files &&
+                fileInput.files.length > 0) {
+
+                showSelectedFile(
+                    fileInput.files[0]
                 );
             }
 
-            // Store result
-            sessionStorage.setItem(
-                "resumeAnalysis",
-                JSON.stringify(result)
+        }
+    );
+
+
+    /* =====================================================
+       CLICK UPLOAD BOX
+       ===================================================== */
+
+    uploadBox.addEventListener(
+        "click",
+        function (event) {
+
+            /*
+             * Don't trigger the file picker again
+             * when the actual input is clicked.
+             */
+
+            if (event.target !== fileInput) {
+
+                fileInput.click();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       DRAG OVER
+       ===================================================== */
+
+    uploadBox.addEventListener(
+        "dragover",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            uploadBox.classList.add(
+                "drag-active"
             );
 
-            // Go to results page
-            window.location.href = "/results";
+        }
+    );
 
-        } catch (error) {
 
-            console.error(
-                "Analysis Error:",
-                error
+    /* =====================================================
+       DRAG ENTER
+       ===================================================== */
+
+    uploadBox.addEventListener(
+        "dragenter",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            uploadBox.classList.add(
+                "drag-active"
             );
 
-            alert(
-                "Could not analyze your resume.\n\n" +
-                error.message
+        }
+    );
+
+
+    /* =====================================================
+       DRAG LEAVE
+       ===================================================== */
+
+    uploadBox.addEventListener(
+        "dragleave",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            /*
+             * Only remove when leaving
+             * the upload box itself.
+             */
+
+            if (
+                event.relatedTarget &&
+                uploadBox.contains(
+                    event.relatedTarget
+                )
+            ) {
+
+                return;
+            }
+
+            uploadBox.classList.remove(
+                "drag-active"
             );
 
-        } finally {
+        }
+    );
 
-            analyzeButton.disabled = false;
+
+    /* =====================================================
+       DROP FILE
+       ===================================================== */
+
+    uploadBox.addEventListener(
+        "drop",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            uploadBox.classList.remove(
+                "drag-active"
+            );
+
+
+            const files =
+                event.dataTransfer.files;
+
+
+            if (!files ||
+                files.length === 0) {
+
+                return;
+            }
+
+
+            const file = files[0];
+
+
+            if (!isValidFile(file)) {
+
+                alert(
+                    "Only PDF and DOCX files are allowed."
+                );
+
+                return;
+            }
+
+
+            /*
+             * Put dropped file into
+             * the real file input.
+             */
+
+            try {
+
+                const dataTransfer =
+                    new DataTransfer();
+
+                dataTransfer.items.add(file);
+
+                fileInput.files =
+                    dataTransfer.files;
+
+            } catch (error) {
+
+                console.error(
+                    "Could not attach dropped file:",
+                    error
+                );
+
+                return;
+            }
+
+
+            showSelectedFile(file);
+
+        }
+    );
+
+
+    /* =====================================================
+       FORM SUBMIT
+       ===================================================== */
+
+    form.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            /* ---------------------------------------------
+               CHECK RESUME
+               --------------------------------------------- */
+
+            if (!fileInput.files ||
+                fileInput.files.length === 0) {
+
+                alert(
+                    "Please upload your resume first."
+                );
+
+                return;
+            }
+
+
+            /* ---------------------------------------------
+               CHECK JOB DESCRIPTION
+               --------------------------------------------- */
+
+            if (
+                jobDescription.value.trim() === ""
+            ) {
+
+                alert(
+                    "Please enter the Job Description."
+                );
+
+                return;
+            }
+
+
+            const resumeFile =
+                fileInput.files[0];
+
+
+            /* ---------------------------------------------
+               CHECK FILE TYPE
+               --------------------------------------------- */
+
+            if (!isValidFile(resumeFile)) {
+
+                alert(
+                    "Only PDF and DOCX files are allowed."
+                );
+
+                return;
+            }
+
+
+            /* ---------------------------------------------
+               CREATE FORM DATA
+               --------------------------------------------- */
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "resume",
+                resumeFile
+            );
+
+
+            formData.append(
+                "jobDescription",
+                jobDescription.value
+            );
+
+
+            /* ---------------------------------------------
+               BUTTON LOADING
+               --------------------------------------------- */
+
+            const originalButtonText =
+                analyzeButton.innerHTML;
+
+
+            analyzeButton.disabled = true;
+
 
             analyzeButton.innerHTML =
-                originalButtonText;
+                '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
+
+
+            try {
+
+
+                /* =========================================
+                   SEND TO SPRING BOOT
+                   ========================================= */
+
+                const response =
+                    await fetch(
+                        "/api/resume/analyze",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                /* =========================================
+                   READ RESPONSE
+                   ========================================= */
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        result ||
+                        "Resume analysis failed."
+                    );
+
+                }
+
+
+                /* =========================================
+                   STORE RESULT
+                   ========================================= */
+
+                sessionStorage.setItem(
+                    "resumeAnalysis",
+                    JSON.stringify(result)
+                );
+
+
+                /* =========================================
+                   GO TO RESULTS
+                   ========================================= */
+
+                window.location.href =
+                    "/results";
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Analysis Error:",
+                    error
+                );
+
+
+                alert(
+                    "Could not analyze your resume.\n\n" +
+                    error.message
+                );
+
+
+            } finally {
+
+
+                analyzeButton.disabled =
+                    false;
+
+
+                analyzeButton.innerHTML =
+                    originalButtonText;
+
+            }
+
         }
-    });
+    );
+
 });

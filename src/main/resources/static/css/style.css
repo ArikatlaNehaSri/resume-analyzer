@@ -897,3 +897,30 @@ footer span {
     }
 
 }
+
+/* =====================================================
+   DRAG & DROP
+   ===================================================== */
+
+.upload-box {
+    cursor: pointer;
+}
+
+.upload-box.drag-active {
+    border-color: #60a5fa;
+
+    background:
+            rgba(96, 165, 250, 0.15);
+
+    transform: scale(1.02);
+
+    box-shadow:
+            0 0 35px rgba(96, 165, 250, 0.30);
+}
+
+.upload-box.file-selected {
+    border-color: #60a5fa;
+
+    box-shadow:
+            0 0 25px rgba(96, 165, 250, 0.20);
+}
