@@ -7,6 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const jobDescription = document.querySelector("#jobDescription");
     const analyzeButton = document.querySelector("#analyzeButton");
 
+    /* AI Loading elements */
+    const loadingOverlay =
+        document.querySelector("#aiLoadingOverlay");
+
+    const loadingMessage =
+        document.querySelector("#aiLoadingMessage");
+
+    const progressBar =
+        document.querySelector("#aiProgressBar");
+
 
     /* =====================================================
        CHECK REQUIRED ELEMENTS
@@ -111,11 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
         "click",
         function (event) {
 
-            /*
-             * Don't trigger the file picker again
-             * when the actual input is clicked.
-             */
-
             if (event.target !== fileInput) {
 
                 fileInput.click();
@@ -178,11 +183,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             event.stopPropagation();
 
-            /*
-             * Only remove when leaving
-             * the upload box itself.
-             */
-
             if (
                 event.relatedTarget &&
                 uploadBox.contains(
@@ -242,11 +242,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            /*
-             * Put dropped file into
-             * the real file input.
-             */
-
             try {
 
                 const dataTransfer =
@@ -272,6 +267,182 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
     );
+
+
+    /* =====================================================
+       AI LOADING ANIMATION
+       ===================================================== */
+
+    function startAILoading() {
+
+        if (!loadingOverlay) {
+            return;
+        }
+
+
+        loadingOverlay.classList.add("show");
+
+
+        if (loadingMessage) {
+
+            loadingMessage.textContent =
+                "Reading your resume...";
+
+        }
+
+
+        if (progressBar) {
+
+            progressBar.style.width =
+                "5%";
+
+        }
+
+
+        const messages = [
+
+            "Reading your resume...",
+
+            "Extracting skills and experience...",
+
+            "Analyzing your education and experience...",
+
+            "Comparing your resume with the job description...",
+
+            "Calculating ATS compatibility...",
+
+            "Identifying missing skills...",
+
+            "Generating AI recommendations..."
+
+        ];
+
+
+        let messageIndex = 0;
+
+        let progress = 5;
+
+
+        /*
+         * Change AI message every 1.6 seconds.
+         */
+
+        window.aiMessageInterval =
+            setInterval(function () {
+
+                messageIndex++;
+
+                if (
+                    messageIndex >=
+                    messages.length
+                ) {
+
+                    messageIndex =
+                        messages.length - 1;
+
+                }
+
+
+                if (loadingMessage) {
+
+                    loadingMessage.textContent =
+                        messages[messageIndex];
+
+                }
+
+            }, 1600);
+
+
+        /*
+         * Slowly increase progress
+         * while the backend is working.
+         */
+
+        window.aiProgressInterval =
+            setInterval(function () {
+
+                if (progress < 90) {
+
+                    progress +=
+                        Math.random() * 6;
+
+
+                    if (progress > 90) {
+
+                        progress = 90;
+
+                    }
+
+
+                    if (progressBar) {
+
+                        progressBar.style.width =
+                            progress + "%";
+
+                    }
+
+                }
+
+            }, 500);
+
+    }
+
+
+    /* =====================================================
+       STOP AI LOADING
+       ===================================================== */
+
+    function stopAILoading(success) {
+
+        if (window.aiMessageInterval) {
+
+            clearInterval(
+                window.aiMessageInterval
+            );
+
+        }
+
+
+        if (window.aiProgressInterval) {
+
+            clearInterval(
+                window.aiProgressInterval
+            );
+
+        }
+
+
+        if (!loadingOverlay) {
+            return;
+        }
+
+
+        if (success) {
+
+            if (progressBar) {
+
+                progressBar.style.width =
+                    "100%";
+
+            }
+
+
+            if (loadingMessage) {
+
+                loadingMessage.textContent =
+                    "Analysis complete! Preparing your results...";
+
+            }
+
+        } else {
+
+            loadingOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
 
 
     /* =====================================================
@@ -369,6 +540,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
 
 
+            /* ---------------------------------------------
+               START AI ANIMATION
+               --------------------------------------------- */
+
+            startAILoading();
+
+
             try {
 
 
@@ -416,11 +594,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 /* =========================================
+                   FINISH AI ANIMATION
+                   ========================================= */
+
+                stopAILoading(true);
+
+
+                /* =========================================
                    GO TO RESULTS
                    ========================================= */
 
-                window.location.href =
-                    "/results";
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "/results";
+
+                    },
+                    900
+                );
 
 
             } catch (error) {
@@ -432,14 +624,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                alert(
-                    "Could not analyze your resume.\n\n" +
-                    error.message
-                );
+                /* Stop animation */
+
+                stopAILoading(false);
 
 
-            } finally {
-
+                /* Restore button */
 
                 analyzeButton.disabled =
                     false;
@@ -447,6 +637,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 analyzeButton.innerHTML =
                     originalButtonText;
+
+
+                alert(
+                    "Could not analyze your resume.\n\n" +
+                    error.message
+                );
 
             }
 
