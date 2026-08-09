@@ -5,12 +5,14 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>AI Resume Analyzer</title>
 
     <!-- Main CSS -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
@@ -22,11 +24,13 @@
 
 </head>
 
+
 <body>
 
-<!-- ==========================================
-     ANIMATED BACKGROUND
-     ========================================== -->
+
+<!-- =====================================================
+     BACKGROUND
+     ===================================================== -->
 
 <div class="background">
 
@@ -37,9 +41,9 @@
 </div>
 
 
-<!-- ==========================================
-     NAVIGATION BAR
-     ========================================== -->
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
 
 <nav>
 
@@ -50,6 +54,7 @@
         AI Resume Analyzer
 
     </div>
+
 
     <ul>
 
@@ -70,9 +75,9 @@
 </nav>
 
 
-<!-- ==========================================
+<!-- =====================================================
      HERO SECTION
-     ========================================== -->
+     ===================================================== -->
 
 <section class="hero">
 
@@ -89,7 +94,7 @@
     </div>
 
 
-    <!-- RIGHT SIDE - RESUME ANALYZER -->
+    <!-- RIGHT SIDE - ANALYZER -->
 
     <div class="right">
 
@@ -109,9 +114,9 @@
         </p>
 
 
-        <!-- ==========================================
+        <!-- =================================================
              RESUME FORM
-             ========================================== -->
+             ================================================= -->
 
         <form id="resumeForm"
               enctype="multipart/form-data">
@@ -119,7 +124,8 @@
 
             <!-- RESUME UPLOAD -->
 
-            <div class="upload-box">
+            <div class="upload-box"
+                 id="uploadBox">
 
                 <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
 
@@ -147,7 +153,6 @@
                         id="resumeFile"
                         name="resume"
                         accept=".pdf,.docx">
-
 
             </div>
 
@@ -181,9 +186,10 @@
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      FEATURES SECTION
-     ========================================== -->
+     ===================================================== -->
 
 <section class="features"
          id="features">
@@ -266,32 +272,72 @@
 </section>
 
 
-<!-- ==========================================
-     ABOUT SECTION
-     ========================================== -->
+
+<!-- =====================================================
+     HOW IT WORKS / ABOUT
+     ===================================================== -->
 
 <section class="about"
          id="about">
 
-    <h2>
 
-        How It Works
+    <div class="about-header">
 
-    </h2>
+        <span class="about-label">
 
+            <i class="fa-solid fa-sparkles"></i>
+
+            SIMPLE & SMART
+
+        </span>
+
+
+        <h2>
+
+            How It Works
+
+        </h2>
+
+
+        <p>
+
+            Analyze your resume in four simple steps
+
+        </p>
+
+    </div>
+
+
+
+    <!-- STEPS -->
 
     <div class="about-steps">
 
 
+        <!-- STEP 1 -->
+
         <div class="step">
 
-            <i class="fa-solid fa-upload"></i>
+            <div class="step-icon">
+
+                <i class="fa-solid fa-upload"></i>
+
+            </div>
+
+
+            <span class="step-number">
+
+                01
+
+            </span>
+
 
             <h3>
 
-                1. Upload
+                Upload
 
             </h3>
+
 
             <p>
 
@@ -302,15 +348,31 @@
         </div>
 
 
+
+        <!-- STEP 2 -->
+
         <div class="step">
 
-            <i class="fa-solid fa-file-lines"></i>
+            <div class="step-icon">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+            </div>
+
+
+            <span class="step-number">
+
+                02
+
+            </span>
+
 
             <h3>
 
-                2. Compare
+                Compare
 
             </h3>
+
 
             <p>
 
@@ -321,15 +383,31 @@
         </div>
 
 
+
+        <!-- STEP 3 -->
+
         <div class="step">
 
-            <i class="fa-solid fa-robot"></i>
+            <div class="step-icon">
+
+                <i class="fa-solid fa-robot"></i>
+
+            </div>
+
+
+            <span class="step-number">
+
+                03
+
+            </span>
+
 
             <h3>
 
-                3. Analyze
+                Analyze
 
             </h3>
+
 
             <p>
 
@@ -340,47 +418,70 @@
         </div>
 
 
+
+        <!-- STEP 4 -->
+
         <div class="step">
 
-            <i class="fa-solid fa-chart-simple"></i>
+            <div class="step-icon">
+
+                <i class="fa-solid fa-chart-simple"></i>
+
+            </div>
+
+
+            <span class="step-number">
+
+                04
+
+            </span>
+
 
             <h3>
 
-                4. Improve
+                Improve
 
             </h3>
 
+
             <p>
 
-                Get your ATS score, missing skills and improvement suggestions.
+                Get your ATS score, missing skills and
+                improvement suggestions.
 
             </p>
 
         </div>
+
 
     </div>
 
 </section>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      FOOTER
-     ========================================== -->
+     ===================================================== -->
 
 <footer>
 
     © 2026 AI Resume Analyzer
-    |
+
+    <span>|</span>
+
     Developed using Spring Boot & AI
 
 </footer>
 
 
-<!-- ==========================================
+
+<!-- =====================================================
      JAVASCRIPT
-     ========================================== -->
+     ===================================================== -->
 
 <script th:src="@{/js/script.js}"></script>
+
 
 </body>
 
