@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ATS Analysis Results</title>
+
+    <!-- Google Font -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Results CSS -->
+    <link rel="stylesheet"
+          th:href="@{/css/results.css}">
+
+</head>
+
+
+<body>
+
+<!-- ==========================================
+     BACKGROUND
+     ========================================== -->
+
+<div class="background">
+
+    <div class="circle circle-one"></div>
+
+    <div class="circle circle-two"></div>
+
+    <div class="circle circle-three"></div>
+
+</div>
+
+
+<!-- ==========================================
+     NAVBAR
+     ========================================== -->
+
+<nav>
+
+    <div class="logo">
+
+        <i class="fa-solid fa-robot"></i>
+
+        AI Resume Analyzer
+
+    </div>
+
+
+    <a href="/" class="home-button">
+
+        <i class="fa-solid fa-house"></i>
+
+        Home
+
+    </a>
+
+</nav>
+
+
+<!-- ==========================================
+     MAIN CONTENT
+     ========================================== -->
+
+<main class="dashboard">
+
+
+    <!-- HEADER -->
+
+    <div class="dashboard-header">
+
+        <span class="small-label">
+
+            <i class="fa-solid fa-sparkles"></i>
+
+            AI ANALYSIS COMPLETE
+
+        </span>
+
+
+        <h1>
+
+            Your Resume Analysis
+
+        </h1>
+
+
+        <p>
+
+            Here's how well your resume matches the job description.
+
+        </p>
+
+    </div>
+
+
+    <!-- ==========================================
+         ATS SCORE
+         ========================================== -->
+
+    <section class="score-section">
+
+        <div class="score-card">
+
+            <div class="score-ring">
+
+                <svg
+                        class="score-svg"
+                        viewBox="0 0 200 200">
+
+                    <circle
+                            class="score-background"
+                            cx="100"
+                            cy="100"
+                            r="82">
+                    </circle>
+
+                    <circle
+                            class="score-progress"
+                            id="scoreProgress"
+                            cx="100"
+                            cy="100"
+                            r="82">
+                    </circle>
+
+                </svg>
+
+
+                <div class="score-content">
+
+                    <span
+                            id="scoreNumber"
+                            class="score-number">
+
+                        0
+
+                    </span>
+
+                    <span class="score-percent">
+
+                        %
+
+                    </span>
+
+                    <span class="score-label">
+
+                        ATS SCORE
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="score-info">
+
+                <h2 id="scoreTitle">
+
+                    Analyzing...
+
+                </h2>
+
+
+                <p id="scoreDescription">
+
+                    Your AI-powered resume compatibility score.
+
+                </p>
+
+
+                <div class="score-status">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    AI Analysis Completed
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         SUMMARY
+         ========================================== -->
+
+    <section class="summary-card">
+
+        <div class="section-icon">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+        </div>
+
+
+        <div>
+
+            <h2>
+
+                Resume Summary
+
+            </h2>
+
+
+            <p id="summary">
+
+                Loading summary...
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         SKILLS GRID
+         ========================================== -->
+
+    <section class="skills-grid">
+
+
+        <!-- MATCHED SKILLS -->
+
+        <div class="skills-card matched-card">
+
+            <div class="card-heading">
+
+                <div class="heading-icon">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+
+                        Matched Skills
+
+                    </h2>
+
+                    <p>
+
+                        Skills matching the job description
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    id="matchedSkills"
+                    class="skills-list">
+
+            </div>
+
+        </div>
+
+
+        <!-- MISSING SKILLS -->
+
+        <div class="skills-card missing-card">
+
+            <div class="card-heading">
+
+                <div class="heading-icon">
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+
+                        Missing Skills
+
+                    </h2>
+
+                    <p>
+
+                        Skills you may need to add
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    id="missingSkills"
+                    class="skills-list">
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         AI SUGGESTIONS
+         ========================================== -->
+
+    <section class="suggestions-card">
+
+        <div class="suggestions-header">
+
+            <div class="heading-icon">
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+            </div>
+
+
+            <div>
+
+                <h2>
+
+                    AI Improvement Suggestions
+
+                </h2>
+
+
+                <p>
+
+                    Personalized recommendations to improve your resume
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+                id="suggestions"
+                class="suggestions-list">
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         ACTION BUTTONS
+         ========================================== -->
+
+    <div class="actions">
+
+        <a href="/" class="action-button secondary">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Analyze Another Resume
+
+        </a>
+
+
+        <button
+                id="downloadReport"
+                class="action-button primary">
+
+            <i class="fa-solid fa-download"></i>
+
+            Download Report
+
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- ==========================================
+     JAVASCRIPT
+     ========================================== -->
+
+<script th:src="@{/js/results.js}"></script>
+
+</body>
+
+</html>

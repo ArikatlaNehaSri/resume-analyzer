@@ -1,161 +1,112 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const form = document.getElementById("resumeForm");
-    const fileInput = document.getElementById("resumeFile");
-    const button = document.querySelector("button");
-    const uploadBox = document.querySelector(".upload-box");
+    const form = document.querySelector("form");
+    const fileInput = document.querySelector('input[type="file"]');
+    const jobDescription = document.querySelector("textarea");
+    const analyzeButton = document.querySelector("button");
 
-    // -------------------------------
-    // Hero Animation
-    // -------------------------------
-
-    const left = document.querySelector(".left");
-    const right = document.querySelector(".right");
-
-    if (left) {
-        left.style.opacity = "0";
-        left.style.transform = "translateX(-60px)";
+    if (!form || !fileInput || !jobDescription || !analyzeButton) {
+        console.error("Required elements not found.");
+        return;
     }
 
-    if (right) {
-        right.style.opacity = "0";
-        right.style.transform = "translateX(60px)";
-    }
+    form.addEventListener("submit", async function (event) {
 
-    setTimeout(() => {
+        event.preventDefault();
 
-        if (left) {
-            left.style.transition = "1s";
-            left.style.opacity = "1";
-            left.style.transform = "translateX(0)";
+        // Check resume
+        if (!fileInput.files || fileInput.files.length === 0) {
+
+            alert("Please upload your resume first.");
+            return;
         }
 
-        if (right) {
-            right.style.transition = "1s";
-            right.style.opacity = "1";
-            right.style.transform = "translateX(0)";
+        // Check job description
+        if (jobDescription.value.trim() === "") {
+
+            alert("Please enter the Job Description.");
+            return;
         }
 
-    }, 300);
+        const resumeFile = fileInput.files[0];
 
+        // Check file type
+        const fileName = resumeFile.name.toLowerCase();
 
-    // -------------------------------
-    // File Selection
-    // -------------------------------
+        if (!fileName.endsWith(".pdf") &&
+            !fileName.endsWith(".docx")) {
 
-    if (fileInput) {
+            alert("Only PDF and DOCX files are allowed.");
+            return;
+        }
 
-        fileInput.addEventListener("change", function () {
+        // Create form data
+        const formData = new FormData();
 
-            if (fileInput.files.length === 0) {
-                return;
-            }
+        formData.append("resume", resumeFile);
 
-            const file = fileInput.files[0];
+        formData.append(
+            "jobDescription",
+            jobDescription.value
+        );
 
-            const fileName = file.name.toLowerCase();
+        // Loading state
+        const originalButtonText =
+            analyzeButton.innerHTML;
 
-            if (!fileName.endsWith(".pdf") &&
-                !fileName.endsWith(".docx")) {
+        analyzeButton.disabled = true;
 
-                alert("Please select a PDF or DOCX resume.");
+        analyzeButton.innerHTML =
+            '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
 
-                fileInput.value = "";
+        try {
 
-                return;
-            }
-
-            uploadBox.classList.add("selected");
-
-            const uploadText = uploadBox.querySelector("span");
-
-            if (uploadText) {
-                uploadText.textContent =
-                    "Selected: " + file.name;
-            }
-
-        });
-    }
-
-
-    // -------------------------------
-    // Upload Resume
-    // -------------------------------
-
-    if (form) {
-
-        form.addEventListener("submit", async function (event) {
-
-            event.preventDefault();
-
-            if (!fileInput.files.length) {
-
-                alert("Please upload your resume first.");
-
-                return;
-            }
-
-            const file = fileInput.files[0];
-
-            const formData = new FormData();
-
-            formData.append("resume", file);
-
-            button.disabled = true;
-
-            button.innerHTML =
-                '<i class="fa-solid fa-spinner fa-spin"></i> Uploading...';
-
-
-            try {
-
-                const response = await fetch(
-                    "/api/resume/upload",
-                    {
-                        method: "POST",
-                        body: formData
-                    }
-                );
-
-                const message = await response.text();
-
-                if (response.ok) {
-
-                    button.innerHTML =
-                        '<i class="fa-solid fa-circle-check"></i> Upload Successful';
-
-                    button.style.background =
-                        "linear-gradient(90deg,#16a34a,#22c55e)";
-
-                    alert(message);
-
-                } else {
-
-                    button.disabled = false;
-
-                    button.innerHTML =
-                        '<i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Resume';
-
-                    alert(message);
+            const response = await fetch(
+                "/api/resume/analyze",
+                {
+                    method: "POST",
+                    body: formData
                 }
+            );
 
-            } catch (error) {
+            const result = await response.json();
 
-                console.error(error);
+            if (!response.ok) {
 
-                button.disabled = false;
-
-                button.innerHTML =
-                    '<i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Resume';
-
-                alert(
-                    "Unable to connect to the server. Please try again."
+                throw new Error(
+                    result.message ||
+                    result ||
+                    "Resume analysis failed."
                 );
-
             }
 
-        });
+            // Store result
+            sessionStorage.setItem(
+                "resumeAnalysis",
+                JSON.stringify(result)
+            );
 
-    }
+            // Go to results page
+            window.location.href = "/results";
 
+        } catch (error) {
+
+            console.error(
+                "Analysis Error:",
+                error
+            );
+
+            alert(
+                "Could not analyze your resume.\n\n" +
+                error.message
+            );
+
+        } finally {
+
+            analyzeButton.disabled = false;
+
+            analyzeButton.innerHTML =
+                originalButtonText;
+        }
+    });
 });
