@@ -1,543 +1,293 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume Analyzer</title>
 
-    <!-- Main CSS -->
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
-
 <body>
+<div class="site-bg"></div>
 
+<header class="navbar">
+    <a href="/" class="brand">
+        <span class="brand-mark"><i class="fa-solid fa-file-circle-check"></i></span>
+        <span>AI Resume Analyzer</span>
+    </a>
 
-<!-- =====================================================
-     BACKGROUND
-     ===================================================== -->
+    <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+    </nav>
+</header>
 
-<div class="background">
-
-    <div class="circle one"></div>
-
-    <div class="circle two"></div>
-
-</div>
-
-
-<!-- =====================================================
-     NAVBAR
-     ===================================================== -->
-
-<nav>
-
-    <div class="logo">
-
-        <i class="fa-solid fa-robot"></i>
-
-        AI Resume Analyzer
-
-    </div>
-
-
-    <ul>
-
-        <li>
-            <a href="#">Home</a>
-        </li>
-
-        <li>
-            <a href="#features">Features</a>
-        </li>
-
-        <li>
-            <a href="#about">About</a>
-        </li>
-
-    </ul>
-
-</nav>
-
-
-<!-- =====================================================
-     HERO SECTION
-     ===================================================== -->
-
-<section class="hero">
-
-
-    <!-- LEFT SIDE - ROBOT -->
-
-    <div class="left">
-
-        <img
-                th:src="@{/images/robot.jpg}"
-                alt="AI Resume Analyzer Robot"
-                class="robot-image">
-
-    </div>
-
-
-    <!-- RIGHT SIDE - ANALYZER -->
-
-    <div class="right">
-
-        <h1>
-
-            AI Powered Resume Analyzer
-
-        </h1>
-
-
-        <p>
-
-            Upload your resume, compare it with the Job Description,
-            calculate your ATS Score, identify missing skills and
-            generate an ATS-friendly resume using Artificial Intelligence.
-
-        </p>
-
-
-        <!-- =================================================
-             RESUME FORM
-             ================================================= -->
-
-        <form id="resumeForm"
-              enctype="multipart/form-data">
-
-
-            <!-- RESUME UPLOAD -->
-
-            <div class="upload-box"
-                 id="uploadBox">
-
-                <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
-
-
-                <h3>
-
-                    Upload Resume
-
-                </h3>
-
-
-                <span id="uploadText">
-
-                    Drag & Drop or Choose File
-
-                </span>
-
-
-                <br>
-                <br>
-
-
-                <input
-                        type="file"
-                        id="resumeFile"
-                        name="resume"
-                        accept=".pdf,.docx">
-
+<main>
+    <!-- HERO -->
+    <section id="home" class="hero section-shell">
+        <div class="hero-copy">
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                AI-POWERED RESUME ANALYSIS
             </div>
 
+            <h1>
+                Make your resume
+                <span>match the job.</span>
+            </h1>
 
-            <!-- JOB DESCRIPTION -->
+            <p class="hero-description">
+                Upload your resume, compare it with a job description,
+                understand your ATS compatibility, and discover exactly
+                where your resume can improve.
+            </p>
 
-            <textarea
-                    id="jobDescription"
-                    name="jobDescription"
-                    placeholder="Paste Job Description Here..."
-                    rows="8"></textarea>
+            <div class="hero-points">
+                <div><i class="fa-solid fa-circle-check"></i> AI-powered analysis</div>
+                <div><i class="fa-solid fa-circle-check"></i> Detailed ATS scoring</div>
+                <div><i class="fa-solid fa-circle-check"></i> Actionable improvements</div>
+            </div>
 
+            <a href="#analyze" class="hero-cta">
+                Analyze My Resume <i class="fa-solid fa-arrow-down"></i>
+            </a>
+        </div>
 
-            <!-- ANALYZE BUTTON -->
+        <!-- CSS / HTML resume illustration: no external image required -->
+        <div class="hero-visual" aria-label="Resume analysis illustration">
+            <div class="glow-orb orb-one"></div>
+            <div class="glow-orb orb-two"></div>
 
-            <button
-                    type="submit"
-                    id="analyzeButton">
+            <div class="resume-sheet">
+                <div class="resume-top">
+                    <div class="avatar-placeholder"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <div class="resume-name">YOUR RESUME</div>
+                        <div class="resume-role">Software Developer</div>
+                    </div>
+                    <div class="resume-check"><i class="fa-solid fa-check"></i></div>
+                </div>
 
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <div class="resume-line long"></div>
+                <div class="resume-line medium"></div>
 
-                Analyze Resume
+                <div class="mini-heading">SKILLS</div>
+                <div class="skill-row">
+                    <span>Java</span><span>SQL</span><span>Spring Boot</span>
+                </div>
 
-            </button>
+                <div class="mini-heading">EXPERIENCE</div>
+                <div class="resume-line long"></div>
+                <div class="resume-line short"></div>
 
+                <div class="mini-heading">EDUCATION</div>
+                <div class="resume-line medium"></div>
+            </div>
 
+            <div class="ats-badge">
+                <div class="ats-ring">
+                    <strong>87</strong>
+                    <small>/100</small>
+                </div>
+                <div>
+                    <strong>ATS Score</strong>
+                    <span>Resume match</span>
+                </div>
+            </div>
+
+            <div class="scan-card">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <div>
+                    <strong>Resume Scan</strong>
+                    <span>Skills & requirements checked</span>
+                </div>
+                <i class="fa-solid fa-circle-check scan-ok"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- ANALYZER -->
+    <section id="analyze" class="analyzer-section section-shell">
+        <div class="section-heading centered">
+            <span class="section-label">START ANALYSIS</span>
+            <h2>Analyze your resume</h2>
+            <p>Upload your resume and paste the target job description to get a detailed match report.</p>
+        </div>
+
+        <form id="resumeForm" class="analyzer-grid">
+            <div class="upload-card">
+                <div class="card-heading">
+                    <div class="heading-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <div>
+                        <h3>Upload your resume</h3>
+                        <p>PDF or DOCX files are supported</p>
+                    </div>
+                </div>
+
+                <div id="uploadBox" class="upload-zone">
+                    <input id="resumeFile" type="file" accept=".pdf,.docx" hidden>
+
+                    <div class="upload-icon-wrap">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
+
+                    <h4 id="uploadText">Drop your resume here</h4>
+                    <p>or choose a file from your computer</p>
+
+                    <button type="button" class="browse-button"
+                            onclick="document.getElementById('resumeFile').click()">
+                        <i class="fa-solid fa-folder-open"></i>
+                        Browse Resume
+                    </button>
+
+                    <span class="upload-note">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        PDF / DOCX &nbsp;•&nbsp; Secure browser upload
+                    </span>
+                </div>
+            </div>
+
+            <div class="jd-card">
+                <div class="card-heading">
+                    <div class="heading-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <div>
+                        <h3>Target job description</h3>
+                        <p>Paste the requirements for the role</p>
+                    </div>
+                </div>
+
+                <div class="textarea-wrap">
+                    <textarea id="jobDescription" name="jobDescription"
+                              placeholder="Paste the job description here...
+
+Example:
+• Java and Spring Boot
+• REST APIs
+• SQL
+• Good communication skills
+• Bachelor's degree in Computer Science"></textarea>
+                    <span class="textarea-hint"><i class="fa-solid fa-circle-info"></i> Include skills, responsibilities and requirements for a more useful comparison.</span>
+                </div>
+
+                <button id="analyzeButton" type="submit" class="analyze-button">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Analyze Resume
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         </form>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     FEATURES SECTION
-     ===================================================== -->
-
-<section class="features"
-         id="features">
-
-
-    <!-- FEATURE 1 -->
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-chart-column"></i>
-
-
-        <h2>
-
-            ATS Score
-
-        </h2>
-
-
-        <p>
-
-            Calculate your Resume ATS Score
-            and understand how well your resume
-            matches a job description.
-
-        </p>
-
-    </div>
-
-
-    <!-- FEATURE 2 -->
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-brain"></i>
-
-
-        <h2>
-
-            AI Suggestions
-
-        </h2>
-
-
-        <p>
-
-            Get intelligent suggestions to improve
-            your resume and increase your chances
-            of passing ATS screening.
-
-        </p>
-
-    </div>
-
-
-    <!-- FEATURE 3 -->
-
-    <div class="feature-card">
-
-        <i class="fa-solid fa-file-arrow-down"></i>
-
-
-        <h2>
-
-            ATS Resume
-
-        </h2>
-
-
-        <p>
-
-            Generate an ATS-friendly resume based
-            on your existing resume and target
-            job description.
-
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     HOW IT WORKS / ABOUT
-     ===================================================== -->
-
-<section class="about"
-         id="about">
-
-
-    <div class="about-header">
-
-        <span class="about-label">
-
-            <i class="fa-solid fa-sparkles"></i>
-
-            SIMPLE & SMART
-
-        </span>
-
-
-        <h2>
-
-            How It Works
-
-        </h2>
-
-
-        <p>
-
-            Analyze your resume in four simple steps
-
-        </p>
-
-    </div>
-
-
-
-    <!-- STEPS -->
-
-    <div class="about-steps">
-
-
-        <!-- STEP 1 -->
-
-        <div class="step">
-
-            <div class="step-icon">
-
-                <i class="fa-solid fa-upload"></i>
-
-            </div>
-
-
-            <span class="step-number">
-
-                01
-
-            </span>
-
-
-            <h3>
-
-                Upload
-
-            </h3>
-
-
-            <p>
-
-                Upload your resume in PDF or DOCX format.
-
-            </p>
-
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="content-section section-shell">
+        <div class="section-heading centered">
+            <span class="section-label">FEATURES</span>
+            <h2>Everything you need to improve your resume</h2>
+            <p>Turn a resume and job description into clear, practical insights.</p>
         </div>
 
+        <div class="feature-grid">
+            <article class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+                <h3>AI Resume Analysis</h3>
+                <p>Analyze your resume against the target job requirements and understand how the content aligns.</p>
+            </article>
 
+            <article class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                <h3>ATS Score</h3>
+                <p>Get a structured ATS compatibility score based on skills, responsibilities, education, experience and soft skills.</p>
+            </article>
 
-        <!-- STEP 2 -->
+            <article class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <h3>Matched Skills</h3>
+                <p>See the important skills and requirements already represented in your resume.</p>
+            </article>
 
-        <div class="step">
+            <article class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3>Missing Skills</h3>
+                <p>Identify relevant skills or requirements that may be missing from your current resume.</p>
+            </article>
 
-            <div class="step-icon">
+            <article class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <h3>Improvement Suggestions</h3>
+                <p>Receive practical suggestions for making your resume clearer and more relevant to the target role.</p>
+            </article>
 
-                <i class="fa-solid fa-file-lines"></i>
+            <article class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                <h3>Downloadable Report</h3>
+                <p>Download your analysis, ATS score, matched skills, missing skills and recommendations as a PDF.</p>
+            </article>
+        </div>
+    </section>
 
+    <!-- ABOUT -->
+    <section id="about" class="about-section section-shell">
+        <div class="about-panel">
+            <div class="about-copy">
+                <span class="section-label">ABOUT</span>
+                <h2>Built to make resume improvement easier.</h2>
+                <p>
+                    AI Resume Analyzer helps job seekers understand how closely their resume
+                    matches a specific job description before applying.
+                </p>
+                <p>
+                    The application combines AI-powered analysis with structured ATS scoring
+                    to highlight strengths, identify gaps and provide actionable suggestions.
+                </p>
             </div>
 
-
-            <span class="step-number">
-
-                02
-
-            </span>
-
-
-            <h3>
-
-                Compare
-
-            </h3>
-
-
-            <p>
-
-                Provide the job description you are applying for.
-
-            </p>
-
-        </div>
-
-
-
-        <!-- STEP 3 -->
-
-        <div class="step">
-
-            <div class="step-icon">
-
-                <i class="fa-solid fa-robot"></i>
-
+            <div class="workflow">
+                <div class="workflow-step">
+                    <span>01</span>
+                    <div><strong>Upload</strong><small>Add your PDF or DOCX resume</small></div>
+                </div>
+                <div class="workflow-line"></div>
+                <div class="workflow-step">
+                    <span>02</span>
+                    <div><strong>Compare</strong><small>Add the target job description</small></div>
+                </div>
+                <div class="workflow-line"></div>
+                <div class="workflow-step">
+                    <span>03</span>
+                    <div><strong>Analyze</strong><small>Review your ATS and AI insights</small></div>
+                </div>
+                <div class="workflow-line"></div>
+                <div class="workflow-step">
+                    <span>04</span>
+                    <div><strong>Improve</strong><small>Use the suggestions and download your report</small></div>
+                </div>
             </div>
-
-
-            <span class="step-number">
-
-                03
-
-            </span>
-
-
-            <h3>
-
-                Analyze
-
-            </h3>
-
-
-            <p>
-
-                AI analyzes your resume against the job requirements.
-
-            </p>
-
         </div>
+    </section>
+</main>
 
-
-
-        <!-- STEP 4 -->
-
-        <div class="step">
-
-            <div class="step-icon">
-
-                <i class="fa-solid fa-chart-simple"></i>
-
-            </div>
-
-
-            <span class="step-number">
-
-                04
-
-            </span>
-
-
-            <h3>
-
-                Improve
-
-            </h3>
-
-
-            <p>
-
-                Get your ATS score, missing skills and
-                improvement suggestions.
-
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     FOOTER
-     ===================================================== -->
-
-<footer>
-
-    © 2026 AI Resume Analyzer
-
-    <span>|</span>
-
-    Developed using Spring Boot & AI
-
+<footer class="footer">
+    <div>© 2026 AI Resume Analyzer</div>
+    <div>Analyze smarter. Apply with confidence.</div>
 </footer>
 
-<!-- =====================================================
-     AI ANALYSIS LOADING OVERLAY
-     ===================================================== -->
-
-<div id="aiLoadingOverlay" class="ai-loading-overlay">
-
-    <div class="ai-loading-card">
-
-        <div class="ai-orbit">
-
-            <div class="orbit orbit-one"></div>
-
-            <div class="orbit orbit-two"></div>
-
-            <div class="ai-core">
-
-                <i class="fa-solid fa-robot"></i>
-
-            </div>
-
-        </div>
-
-
-        <h2>
-
-            AI is analyzing your resume
-
-        </h2>
-
-
-        <p id="aiLoadingMessage">
-
-            Reading your resume...
-
-        </p>
-
-
-        <div class="ai-progress-container">
-
-            <div
-                    id="aiProgressBar"
-                    class="ai-progress-bar">
-            </div>
-
-        </div>
-
-
-        <span class="ai-loading-subtext">
-
-            Please wait while we analyze your resume
-
-        </span>
-
+<!-- Existing loading overlay IDs are intentionally preserved for script.js -->
+<div id="aiLoadingOverlay" class="loading-overlay">
+    <div class="loading-card">
+        <div class="loading-spinner"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+        <h3>Analyzing your resume</h3>
+        <p id="aiLoadingMessage">Reading your resume...</p>
+        <div class="progress-track"><div id="aiProgressBar" class="progress-bar"></div></div>
+        <small>Please wait while your resume is compared with the job requirements.</small>
     </div>
-
 </div>
 
-<!-- =====================================================
-     JAVASCRIPT
-     ===================================================== -->
-
 <script th:src="@{/js/script.js}"></script>
-
-
 </body>
-
 </html>
