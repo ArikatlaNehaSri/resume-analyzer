@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -10,24 +11,29 @@
 
     <title>ATS Analysis Results</title>
 
+
     <!-- Google Font -->
     <link
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet">
+
 
     <!-- Font Awesome -->
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+
     <!-- Results CSS -->
-    <link rel="stylesheet"
-          th:href="@{/css/results.css}">
+    <link
+            rel="stylesheet"
+            th:href="@{/css/results.css}">
 
 </head>
 
 
 <body>
+
 
 <!-- ==========================================
      BACKGROUND
@@ -77,7 +83,9 @@
 <main class="dashboard">
 
 
-    <!-- HEADER -->
+    <!-- ==========================================
+         HEADER
+         ========================================== -->
 
     <div class="dashboard-header">
 
@@ -99,7 +107,8 @@
 
         <p>
 
-            Here's how well your resume matches the job description.
+            Here's how well your resume matches
+            the job description.
 
         </p>
 
@@ -127,6 +136,7 @@
                             r="82">
                     </circle>
 
+
                     <circle
                             class="score-progress"
                             id="scoreProgress"
@@ -148,11 +158,13 @@
 
                     </span>
 
+
                     <span class="score-percent">
 
                         %
 
                     </span>
+
 
                     <span class="score-label">
 
@@ -176,7 +188,7 @@
 
                 <p id="scoreDescription">
 
-                    Your AI-powered resume compatibility score.
+                    Your resume compatibility score.
 
                 </p>
 
@@ -230,7 +242,7 @@
 
 
     <!-- ==========================================
-         SKILLS GRID
+         SKILLS
          ========================================== -->
 
     <section class="skills-grid">
@@ -257,6 +269,7 @@
 
                     </h2>
 
+
                     <p>
 
                         Skills matching the job description
@@ -271,7 +284,6 @@
             <div
                     id="matchedSkills"
                     class="skills-list">
-
             </div>
 
         </div>
@@ -298,6 +310,7 @@
 
                     </h2>
 
+
                     <p>
 
                         Skills you may need to add
@@ -312,7 +325,6 @@
             <div
                     id="missingSkills"
                     class="skills-list">
-
             </div>
 
         </div>
@@ -346,7 +358,8 @@
 
                 <p>
 
-                    Personalized recommendations to improve your resume
+                    Personalized recommendations
+                    to improve your resume
 
                 </p>
 
@@ -358,7 +371,6 @@
         <div
                 id="suggestions"
                 class="suggestions-list">
-
         </div>
 
     </section>
@@ -370,7 +382,10 @@
 
     <div class="actions">
 
-        <a href="/" class="action-button secondary">
+
+        <a
+                href="/"
+                class="action-button secondary">
 
             <i class="fa-solid fa-arrow-left"></i>
 
@@ -381,11 +396,12 @@
 
         <button
                 id="downloadReport"
-                class="action-button primary">
+                class="action-button primary"
+                type="button">
 
-            <i class="fa-solid fa-download"></i>
+            <i class="fa-solid fa-file-pdf"></i>
 
-            Download Report
+            Download PDF
 
         </button>
 
@@ -395,10 +411,13 @@
 
 
 <!-- ==========================================
-     JAVASCRIPT
+     RESULTS JAVASCRIPT
      ========================================== -->
 
-<script th:src="@{/js/results.js}"></script>
+<script
+        th:src="@{/js/results.js}">
+</script>
+
 
 </body>
 

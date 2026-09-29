@@ -980,3 +980,64 @@ nav {
     }
 
 }
+
+/* ==========================================
+   PRINT / PDF
+   ========================================== */
+
+@media print {
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .background {
+        display: none !important;
+    }
+
+    nav {
+        display: none !important;
+    }
+
+    .actions {
+        display: none !important;
+    }
+
+    .dashboard {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 20px !important;
+        margin: 0 !important;
+    }
+
+    .dashboard-header {
+        color: black !important;
+    }
+
+    .dashboard-header h1,
+    .dashboard-header p,
+    .small-label {
+        color: black !important;
+    }
+
+    .score-section,
+    .summary-card,
+    .skills-card,
+    .suggestions-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .score-card,
+    .summary-card,
+    .skills-card,
+    .suggestions-card {
+        box-shadow: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+}

@@ -1,3 +1,7 @@
+// =====================================================
+// AI RESUME ANALYZER - MAIN SCRIPT
+// =====================================================
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.querySelector("#resumeForm");
@@ -7,7 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const jobDescription = document.querySelector("#jobDescription");
     const analyzeButton = document.querySelector("#analyzeButton");
 
-    /* AI Loading elements */
+
+    // =====================================================
+    // AI LOADING ELEMENTS
+    // =====================================================
+
     const loadingOverlay =
         document.querySelector("#aiLoadingOverlay");
 
@@ -18,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#aiProgressBar");
 
 
-    /* =====================================================
-       CHECK REQUIRED ELEMENTS
-       ===================================================== */
+    // =====================================================
+    // CHECK REQUIRED ELEMENTS
+    // =====================================================
 
     if (!form ||
         !fileInput ||
@@ -35,9 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       FILE VALIDATION
-       ===================================================== */
+    // =====================================================
+    // FILE VALIDATION
+    // =====================================================
 
     function isValidFile(file) {
 
@@ -53,9 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       DISPLAY SELECTED FILE
-       ===================================================== */
+    // =====================================================
+    // DISPLAY SELECTED FILE
+    // =====================================================
 
     function showSelectedFile(file) {
 
@@ -84,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "file-selected"
         );
 
+
         console.log(
             "Resume selected:",
             file.name
@@ -93,9 +102,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       NORMAL FILE SELECTION
-       ===================================================== */
+    // =====================================================
+    // NORMAL FILE SELECTION
+    // =====================================================
 
     fileInput.addEventListener(
         "change",
@@ -113,9 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
-       CLICK UPLOAD BOX
-       ===================================================== */
+    // =====================================================
+    // CLICK UPLOAD BOX
+    // =====================================================
 
     uploadBox.addEventListener(
         "click",
@@ -131,9 +140,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
-       DRAG OVER
-       ===================================================== */
+    // =====================================================
+    // DRAG OVER
+    // =====================================================
 
     uploadBox.addEventListener(
         "dragover",
@@ -151,9 +160,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
-       DRAG ENTER
-       ===================================================== */
+    // =====================================================
+    // DRAG ENTER
+    // =====================================================
 
     uploadBox.addEventListener(
         "dragenter",
@@ -171,9 +180,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
-       DRAG LEAVE
-       ===================================================== */
+    // =====================================================
+    // DRAG LEAVE
+    // =====================================================
 
     uploadBox.addEventListener(
         "dragleave",
@@ -182,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
 
             event.stopPropagation();
+
 
             if (
                 event.relatedTarget &&
@@ -193,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+
             uploadBox.classList.remove(
                 "drag-active"
             );
@@ -201,9 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
-       DROP FILE
-       ===================================================== */
+    // =====================================================
+    // DROP FILE
+    // =====================================================
 
     uploadBox.addEventListener(
         "drop",
@@ -269,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* =====================================================
-       AI LOADING ANIMATION
-       ===================================================== */
+    // =====================================================
+    // AI LOADING ANIMATION
+    // =====================================================
 
     function startAILoading() {
 
@@ -323,14 +334,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let progress = 5;
 
 
-        /*
-         * Change AI message every 1.6 seconds.
-         */
+        // Change AI message every 1.6 seconds
 
         window.aiMessageInterval =
             setInterval(function () {
 
                 messageIndex++;
+
 
                 if (
                     messageIndex >=
@@ -353,10 +363,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 1600);
 
 
-        /*
-         * Slowly increase progress
-         * while the backend is working.
-         */
+        // Slowly increase progress
+        // while backend is working
 
         window.aiProgressInterval =
             setInterval(function () {
@@ -388,9 +396,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       STOP AI LOADING
-       ===================================================== */
+    // =====================================================
+    // STOP AI LOADING
+    // =====================================================
 
     function stopAILoading(success) {
 
@@ -445,9 +453,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       FORM SUBMIT
-       ===================================================== */
+    // =====================================================
+    // FORM SUBMIT
+    // =====================================================
 
     form.addEventListener(
         "submit",
@@ -456,9 +464,9 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
 
 
-            /* ---------------------------------------------
-               CHECK RESUME
-               --------------------------------------------- */
+            // =================================================
+            // CHECK RESUME
+            // =================================================
 
             if (!fileInput.files ||
                 fileInput.files.length === 0) {
@@ -471,9 +479,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            /* ---------------------------------------------
-               CHECK JOB DESCRIPTION
-               --------------------------------------------- */
+            // =================================================
+            // CHECK JOB DESCRIPTION
+            // =================================================
 
             if (
                 jobDescription.value.trim() === ""
@@ -491,9 +499,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 fileInput.files[0];
 
 
-            /* ---------------------------------------------
-               CHECK FILE TYPE
-               --------------------------------------------- */
+            // =================================================
+            // CHECK FILE TYPE
+            // =================================================
 
             if (!isValidFile(resumeFile)) {
 
@@ -505,9 +513,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            /* ---------------------------------------------
-               CREATE FORM DATA
-               --------------------------------------------- */
+            // =================================================
+            // CREATE FORM DATA
+            // =================================================
 
             const formData =
                 new FormData();
@@ -525,9 +533,9 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            /* ---------------------------------------------
-               BUTTON LOADING
-               --------------------------------------------- */
+            // =================================================
+            // BUTTON LOADING
+            // =================================================
 
             const originalButtonText =
                 analyzeButton.innerHTML;
@@ -540,19 +548,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
 
 
-            /* ---------------------------------------------
-               START AI ANIMATION
-               --------------------------------------------- */
+            // =================================================
+            // START AI ANIMATION
+            // =================================================
 
             startAILoading();
 
 
             try {
 
-
-                /* =========================================
-                   SEND TO SPRING BOOT
-                   ========================================= */
+                // =============================================
+                // SEND TO SPRING BOOT
+                // =============================================
 
                 const response =
                     await fetch(
@@ -564,9 +571,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                /* =========================================
-                   READ RESPONSE
-                   ========================================= */
+                // =============================================
+                // READ RESPONSE
+                // =============================================
 
                 const result =
                     await response.json();
@@ -583,26 +590,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* =========================================
-                   STORE RESULT
-                   ========================================= */
+                // =============================================
+                // STORE RESULT
+                // =============================================
+                //
+                // IMPORTANT:
+                // results.js reads "analysisResult"
+                //
+                // =============================================
 
                 sessionStorage.setItem(
-                    "resumeAnalysis",
+                    "analysisResult",
                     JSON.stringify(result)
                 );
 
 
-                /* =========================================
-                   FINISH AI ANIMATION
-                   ========================================= */
+                // =============================================
+                // FINISH AI ANIMATION
+                // =============================================
 
                 stopAILoading(true);
 
 
-                /* =========================================
-                   GO TO RESULTS
-                   ========================================= */
+                // =============================================
+                // GO TO RESULTS
+                // =============================================
 
                 setTimeout(
                     function () {
@@ -617,19 +629,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } catch (error) {
 
-
                 console.error(
                     "Analysis Error:",
                     error
                 );
 
 
-                /* Stop animation */
+                // Stop animation
 
                 stopAILoading(false);
 
 
-                /* Restore button */
+                // Restore button
 
                 analyzeButton.disabled =
                     false;
